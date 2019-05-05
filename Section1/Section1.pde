@@ -1,4 +1,4 @@
- int MAX_VALUE = 100;
+int MAX_VALUE = 100;
 int MIN_VALUE = -100;
 Visualizer v;
 
@@ -45,7 +45,7 @@ class Visualizer {
     //fill(0, 255, 0);
     //rect(x+120, y+50, 60, 50);
     int widthBar = 400 / values.length;
-    for(int i = 0; i < values.length; i++) {
+    for (int i = 0; i < values.length; i++) {
       if (values[i] >= 0) {
         fill(0, 255, 0);
         rect(x + widthBar * i, y + MAX_VALUE, widthBar, -values[i]);
@@ -55,19 +55,21 @@ class Visualizer {
       }
     }
     //Width of the visualizer is 400!
-
-  
   }
   void update() {
     //???WRITE THIS METHOD SECOND!!!
     for (int i = 0; i < values.length; i++) {
       values[i] += speeds[i]; //the speed updates the values. Do not touch this.
       //??? keep them values between max/min value so they stay in the box.
-      if (values[i] < y - 100 || values[i] > y + 100) {
-        speeds[i] *= -1;
+      if (values[i] < -100) {
+        values[i] = -100;
+      } else if (values[i] > 100) {
+        values[i] = 100;
       }
       //??? reverse the speeds so the bar oscillates up/down when it reaches max/min
-      
+      if (values[i] >= 100|| values[i] <= -100) {
+        speeds[i] *= -1;
+      }
     }
   }
 }
