@@ -8,13 +8,16 @@ Visualizer v;
  */
 class Visualizer {
   float x, y;
+  int h, w;
   float [] values;
   float [] speeds;
-  Visualizer(float x, float y) {
+  Visualizer(float x, float y, int variableSize, int h, int w) {
     this.x = x;
     this.y = y;
-    values = new float[10];
-    speeds = new float[10];
+    values = new float[variableSize];
+    speeds = new float[variableSize];
+    this.h = h;
+    this.w = w;
     for (int i = 0; i < values.length; i++) {
       values[i] = random(-99, 99);
       speeds[i] = random(2);
@@ -26,12 +29,12 @@ class Visualizer {
     //You can assume 10, but it would be even better 
     //if you could modify it to be larger increments.
     fill(255);
-    rect(x, y, 400, 200);
+    rect(x, y, w, h);
     //This is a 200x400 box.
     //The width of the visualizer is 400! This rect is the border
 
     //the line is the 0 y-value, the top is 100, the bottom is -100
-    line(x, y+100, x+400, y+100);
+    line(x, y+(h/2), x+w, y+(h/2));
 
     //You need to use a loop. You need to make the HEIGHT of the bars 
     //the values in the array.
@@ -44,19 +47,13 @@ class Visualizer {
     //rect(x+40, y+100, 60, 50);
     //fill(0, 255, 0);
     //rect(x+120, y+50, 60, 50);
-    //incrementing the bars evenly
-    int widthBar = 400 / values.length;
-    //going through the values
+    int widthBar = w / values.length;
     for (int i = 0; i < values.length; i++) {
-    //if the bar is above the line: green
       if (values[i] >= 0) {
         fill(0, 255, 0);
-        //start the rectangle at the bottom left and the input -height bc positive values go down
         rect(x + widthBar * i, y + MAX_VALUE, widthBar, -values[i]);
       } else {
-        //red
         fill(255, 0, 0);
-        //same as above
         rect(x + widthBar * i, y + MAX_VALUE, widthBar, -values[i]);
       }
     }
@@ -67,15 +64,13 @@ class Visualizer {
     for (int i = 0; i < values.length; i++) {
       values[i] += speeds[i]; //the speed updates the values. Do not touch this.
       //??? keep them values between max/min value so they stay in the box.
-      //kept the values in the box by changing the value into the max/min if they go past the box
-      if (values[i] < -100) {
+      if (values[i] < -(h/2)) {
         values[i] = -100;
-      } else if (values[i] > 100) {
+      } else if (values[i] > (h/2)) {
         values[i] = 100;
       }
       //??? reverse the speeds so the bar oscillates up/down when it reaches max/min
-      //negative the speeds when they passed or equal to the box
-      if (values[i] >= 100|| values[i] <= -100) {
+      if (values[i] >= (h/2)|| values[i] <= -(h/2)) {
         speeds[i] *= -1;
       }
     }
@@ -84,7 +79,7 @@ class Visualizer {
 
 void setup() {
   size(600, 500);
-  v = new Visualizer(20, 20);
+  v = new Visualizer(20, 20, 10, 100, 100);
 }
 void draw() {
   background(255);
