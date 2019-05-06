@@ -19,7 +19,7 @@ class Visualizer {
     this.h = h;
     this.w = w;
     for (int i = 0; i < values.length; i++) {
-      values[i] = random(-99, 99);
+      values[i] = random(-(h/2)-1, (h/2)-1);
       speeds[i] = random(2);
     }
   }
@@ -51,10 +51,10 @@ class Visualizer {
     for (int i = 0; i < values.length; i++) {
       if (values[i] >= 0) {
         fill(0, 255, 0);
-        rect(x + widthBar * i, y + MAX_VALUE, widthBar, -values[i]);
+        rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
       } else {
         fill(255, 0, 0);
-        rect(x + widthBar * i, y + MAX_VALUE, widthBar, -values[i]);
+        rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
       }
     }
     //Width of the visualizer is 400!
@@ -63,12 +63,6 @@ class Visualizer {
     //???WRITE THIS METHOD SECOND!!!
     for (int i = 0; i < values.length; i++) {
       values[i] += speeds[i]; //the speed updates the values. Do not touch this.
-      //??? keep them values between max/min value so they stay in the box.
-      if (values[i] < -(h/2)) {
-        values[i] = -100;
-      } else if (values[i] > (h/2)) {
-        values[i] = 100;
-      }
       //??? reverse the speeds so the bar oscillates up/down when it reaches max/min
       if (values[i] >= (h/2)|| values[i] <= -(h/2)) {
         speeds[i] *= -1;
@@ -79,7 +73,7 @@ class Visualizer {
 
 void setup() {
   size(600, 500);
-  v = new Visualizer(20, 20, 10, 100, 100);
+  v = new Visualizer(20, 20, 10, 100, 400);
 }
 void draw() {
   background(255);
