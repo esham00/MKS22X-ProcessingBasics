@@ -1,5 +1,4 @@
-int MAX_VALUE = 100;
-int MIN_VALUE = -100;
+
 Visualizer v;
 
 /*You are simulating a visualizer of multiple values
@@ -8,9 +7,11 @@ Visualizer v;
  */
 class Visualizer {
   float x, y;
+  //height,width
   int h, w;
   float [] values;
   float [] speeds;
+  //initialization x, y, length of array, height, width
   Visualizer(float x, float y, int variableSize, int h, int w) {
     this.x = x;
     this.y = y;
@@ -29,9 +30,8 @@ class Visualizer {
     //You can assume 10, but it would be even better 
     //if you could modify it to be larger increments.
     fill(255);
+    //drawing the box
     rect(x, y, w, h);
-    //This is a 200x400 box.
-    //The width of the visualizer is 400! This rect is the border
 
     //the line is the 0 y-value, the top is 100, the bottom is -100
     line(x, y+(h/2), x+w, y+(h/2));
@@ -49,11 +49,22 @@ class Visualizer {
     //rect(x+120, y+50, 60, 50);
     int widthBar = w / values.length;
     for (int i = 0; i < values.length; i++) {
-      if (values[i] >= 0) {
-        fill(0, 255, 0);
+      //gradient of red
+      //rectangle starting at bottom left, -value bc positive is down in the processing grid while negative is up
+      if (Math.abs(values[i]) >= 0 && Math.abs(values[i]) <= (h/5)) {
+        fill(255, 0, 0);
+        rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
+      } else if (Math.abs(values[i]) > (h/5) && Math.abs(values[i]) <= ((2*h)/5)) {
+        fill(200, 0, 0);
+        rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
+      } else if (Math.abs(values[i]) > (2*h/5) && Math.abs(values[i]) <= ((3*h)/5)) {
+        fill(150, 0, 0);
+        rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
+      } else if (Math.abs(values[i]) > (3*h/5) && Math.abs(values[i]) <= ((4*h)/5)) {
+        fill(100, 0, 0);
         rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
       } else {
-        fill(255, 0, 0);
+        fill(50, 0, 0);
         rect(x + widthBar * i, y + (h/2), widthBar, -values[i]);
       }
     }
@@ -73,7 +84,7 @@ class Visualizer {
 
 void setup() {
   size(600, 500);
-  v = new Visualizer(20, 20, 10, 100, 400);
+  v = new Visualizer(20, 20, 10, 400, 400);
 }
 void draw() {
   background(255);
